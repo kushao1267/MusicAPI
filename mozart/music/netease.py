@@ -1,9 +1,11 @@
-import binascii
-import json
+import re
 import requests
+import json
+import binascii
 from Crypto.Cipher import AES
-from . import Music
-import config
+from .base import Music
+from mozart import config
+
 
 
 def encode_netease_data(data) -> str:
@@ -22,8 +24,10 @@ class Netease(Music):
         super(Netease, self).__init__(*args, **kwargs)
         # 网易音乐的初始化
         self.music_id = self.get_music_id_from_url(self.real_url)
-        self._get_music_info()
-        self._get_download_url()
+
+        if self.music_id:  # music_id合法才请求
+            self._get_music_info()
+            self._get_download_url()
 
     def _get_music_info(self):
         s = requests.Session()
@@ -64,7 +68,8 @@ class Netease(Music):
         self._download_url = j["data"][0]["url"]
 
     @classmethod
-    def get_music_id_from_url(cls, url):
-        return url
-
-# Netease("http://music.163.com/song/1358275974/?userid=1769873017")
+    def get_music_id_from_url(cls, url) -> str:
+        music_ids = re.findall(r'music.163.com/song/(\d+)/', url)
+        if music_ids:
+            return music_ids[0]
+        return ""

@@ -1,8 +1,10 @@
 # coding=utf-8
 import random
+import re
 import requests
-from . import Music
-import config
+from .base import Music
+
+from mozart import config
 
 
 def get_guid():
@@ -33,12 +35,10 @@ class QQ(Music):
         super(QQ, self).__init__(*args, **kwargs)
         # 网易音乐的初始化
         self.music_id = self.get_music_id_from_url(self.real_url)
-        self._get_music_info()
-        self._get_download_url()
 
-    @classmethod
-    def get_music_id_from_url(cls, url):
-        return url
+        if self.music_id:  # music_id合法才请求
+            self._get_music_info()
+            self._get_download_url()
 
     def _get_download_url(self):
         guid = get_guid()
@@ -87,4 +87,9 @@ class QQ(Music):
         self._song = data["name"]
         self._singer = data["singer"][0]["name"]
 
-# construct_download_url("001luHbo2nQT1Y")
+    @classmethod
+    def get_music_id_from_url(cls, url):
+        music_ids = re.findall(r'songmid=(.+?)&', url)
+        if music_ids:
+            return music_ids[0]
+        return ""
