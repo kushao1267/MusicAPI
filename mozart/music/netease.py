@@ -22,8 +22,8 @@ class Netease(Music):
         super(Netease, self).__init__(*args, **kwargs)
         # 网易音乐的初始化
         self.music_id = self.get_music_id_from_url(self.real_url)
-        self._get_music_info(self.music_id)
-        self._get_download_url(self.music_id)
+        self._get_music_info()
+        self._get_download_url()
 
     def _get_music_info(self):
         s = requests.Session()
@@ -67,4 +67,4 @@ class Netease(Music):
     def get_music_id_from_url(cls, url):
         return url
 
-# print(get_music_info('1358275974'))
+# Netease("http://music.163.com/song/1358275974/?userid=1769873017")

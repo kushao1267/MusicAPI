@@ -38,7 +38,7 @@ class Music(object):
         return self._song
 
     @classmethod
-    def get_music_id_from_url(cls):
+    def get_music_id_from_url(cls, url):
         """
         从real_url获得music id
         """
@@ -49,6 +49,7 @@ class Music(object):
         """
         根据分享链接，获取最终访问的URL，支持redirect
         :return: url
+        # TODO: only qq need redirect
         """
         r = requests.head(url, allow_redirects=True, headers={"User-Agent": config.ios_ua})
         return r.url
