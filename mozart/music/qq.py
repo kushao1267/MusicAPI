@@ -34,7 +34,7 @@ def operate_vkey(guid):
         {"referer": "http://y.qq.com", "User-Agent": ios_ua}
     )
 
-    r = s.get("http://base.mozart.qq.com/fcgi-bin/fcg_musicexpress.fcg", params=params)
+    r = s.get("http://base.music.qq.com/fcgi-bin/fcg_musicexpress.fcg", params=params)
     if r.status_code != requests.codes.ok:
         raise Exception(r.text)
     j = r.json()
@@ -47,7 +47,7 @@ def operate_vkey(guid):
 def construct_download_url(mid):
     guid = get_guid()
     vkey = operate_vkey(guid)
-    title, singer = get_music_info(mid)
+    # title, singer = get_music_info(mid) // 有些歌曲获取title和singer会失败
     rate = 128
     for prefix in ["M800", "M500", "C400"]:
         url = "http://dl.stream.qqmusic.qq.com/%s%s.mp3?vkey=%s&guid=%s&fromtag=1" % (
@@ -73,8 +73,7 @@ def construct_download_url(mid):
             if prefix == "M800":
                 rate = 320
             break
-
-    print("singer:{}\nimg:{}\ntitle:{}\nlyric:{}\naudio:{}".format(singer, "", title, "", url))
+    print(url)
 
 
 def get_music_info(mid):
@@ -94,4 +93,4 @@ def get_music_info(mid):
     return title, singer
 
 
-construct_download_url("001TXSYu1Gwuwv")
+construct_download_url("001luHbo2nQT1Y")
