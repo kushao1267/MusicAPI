@@ -18,7 +18,8 @@ class Music(object):
         pass
 
     def __repr__(self):
-        return "[Music]{singer:%s,song:%s,cover:%s}" % (self._singer, self._song, self._cover)
+        return "[Music]{singer:%s,song:%s,cover:%s,download_url:%s}" % (
+            self._singer, self._song, self._cover, self._download_url)
 
     @property
     def download_url(self):
