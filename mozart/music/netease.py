@@ -6,13 +6,14 @@ from Crypto.Cipher import AES
 from .base import Music
 from mozart import config
 
+__all__ = ["Netease"]
 
 
 def encode_netease_data(data) -> str:
     data = json.dumps(data)
     key = binascii.unhexlify("7246674226682325323F5E6544673A51")
     encryptor = AES.new(key, AES.MODE_ECB)
-    # 补足data长度，使其是16的倍数
+    # 补足data长度，满足16的倍数
     pad = 16 - len(data) % 16
     fix = chr(pad) * pad
     byte_data = (data + fix).encode("utf-8")
@@ -23,8 +24,13 @@ class Netease(Music):
     def __init__(self, *args, **kwargs):
         super(Netease, self).__init__(*args, **kwargs)
         # 网易音乐的初始化
-        self.music_id = self.get_music_id_from_url(self.real_url)
+        if not self.use_id:
+            self.music_id = self.get_music_id_from_url(self.real_url)
+        self.get_music_from_id()
 
+        print(self.__repr__())
+
+    def get_music_from_id(self):
         if self.music_id:  # music_id合法才请求
             self._get_music_info()
             self._get_download_url()
@@ -66,6 +72,7 @@ class Netease(Music):
             raise Exception(r.text)
         j = r.json()
         self._download_url = j["data"][0]["url"]
+        self._rate = int(j["data"][0]["br"] / 1000)
 
     @classmethod
     def get_music_id_from_url(cls, url) -> str:

@@ -16,5 +16,26 @@
 
 ## Usage
 
+1.使用music_id访问
+
+```python
+$ python -m mozart -n netease -l http://music.163.com/song/1358275974/\?userid\=1769873017
+[Music]
+singer:李子璇
+song:豆你玩
+cover:http://p1.music.126.net/326BBneDl4izrTBF8vJJxA==/109951163993105848.jpg
+download_url:http://m10.music.126.net/20190419145523/620fa37967fa54ab80c9987dbaba8e4a/ymusic/045d/0e5d/0553/37a1dc7beb972befb40629f085a5eb39.mp3
+```
+
+2.使用music share url访问
+
+```python
+$ python -m mozart -n netease -m 1358275974
+[Music]
+singer:李子璇
+song:豆你玩
+cover:http://p2.music.126.net/326BBneDl4izrTBF8vJJxA==/109951163993105848.jpg
+download_url:http://m10.music.126.net/20190419145641/41f171066b22d8e496b63ff67c6ca429/ymusic/045d/0e5d/0553/37a1dc7beb972befb40629f085a5eb39.mp3
+```
 ## License
 [MIT License](https://github.com/kushao1267/facade/blob/master/LICENSE)

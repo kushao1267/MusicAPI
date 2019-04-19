@@ -6,6 +6,8 @@ from .base import Music
 
 from mozart import config
 
+__all__ = ["QQ"]
+
 
 def get_guid():
     return str(random.randrange(1000000000, 10000000000))
@@ -33,9 +35,15 @@ def operate_vkey(guid):
 class QQ(Music):
     def __init__(self, *args, **kwargs):
         super(QQ, self).__init__(*args, **kwargs)
-        # 网易音乐的初始化
-        self.music_id = self.get_music_id_from_url(self.real_url)
 
+        # 网易音乐的初始化
+        if not self.use_id:
+            self.music_id = self.get_music_id_from_url(self.real_url)
+        self.get_music_from_id()
+
+        print(self.__repr__())  # 打印输出
+
+    def get_music_from_id(self):
         if self.music_id:  # music_id合法才请求
             self._get_music_info()
             self._get_download_url()
@@ -43,8 +51,6 @@ class QQ(Music):
     def _get_download_url(self):
         guid = get_guid()
         vkey = operate_vkey(guid)
-        # title, singer = get_music_info(mid) // 有些歌曲获取title和singer会失败
-        rate = 128
         for prefix in ["M800", "M500", "C400"]:
             url = "http://dl.stream.qqmusic.qq.com/%s%s.mp3?vkey=%s&guid=%s&fromtag=1" % (
                 prefix,
@@ -53,6 +59,7 @@ class QQ(Music):
                 guid,
             )
 
+            size = 0
             try:
                 r = requests.get(
                     url,
@@ -67,12 +74,16 @@ class QQ(Music):
 
             if size > 0:
                 if prefix == "M800":
-                    rate = 320
+                    self._rate = 320
                 break
 
         self._download_url = url
 
     def _get_music_info(self):
+        """
+        有些歌曲获取title和singer会失败
+        :return:
+        """
         url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
         params = {
             'format': 'json',
