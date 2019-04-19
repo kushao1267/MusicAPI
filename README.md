@@ -18,7 +18,7 @@
 
 1.使用music_id访问
 
-```python
+```
 $ python -m mozart -n netease -l http://music.163.com/song/1358275974/\?userid\=1769873017
 [Music]
 singer:李子璇
@@ -29,7 +29,7 @@ download_url:http://m10.music.126.net/20190419145523/620fa37967fa54ab80c9987dbab
 
 2.使用music share url访问
 
-```python
+```
 $ python -m mozart -n netease -m 1358275974
 [Music]
 singer:李子璇
