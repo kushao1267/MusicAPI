@@ -34,7 +34,7 @@ def cli():
             "-m", "--music", dest='music_id', type=str, default="",
             help='print out all info about this music from music id.')
         args = parser.parse_args()
-        if not args.name or (not args.link and not args.music_id):
+        if not args.name or args.name in ["qq", "xiami", "netease"] or (not args.link and not args.music_id):
             parser.print_help()
             exit(0)
         return args
@@ -48,16 +48,15 @@ def cli():
     )
     logger = logging.getLogger("mozart")
 
+    got, handler = get_music_handler(args.name)
     # main proccess
-    if args.music_id and args.music_id.isdigit() and args.name in ["qq", "xiami", "netease"]:
+    if args.music_id:
         logger.debug("use music id to request")
-        got, handler = get_music_handler(args.name)
         if got:
             handler(music_id=args.music_id, use_id=True)
 
     elif args.link:
         logger.debug("use link to request")
-        got, handler = get_music_handler(args.name)
         if got:
             handler(url=args.link, use_id=False)
     else:

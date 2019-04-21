@@ -5,6 +5,7 @@ import binascii
 from Crypto.Cipher import AES
 from .base import Music
 from mozart import config
+from .exception import MusicIDInvalid
 
 __all__ = ["Netease"]
 
@@ -78,5 +79,6 @@ class Netease(Music):
     def get_music_id_from_url(cls, url) -> str:
         music_ids = re.findall(r'music.163.com/song/(\d+)/', url)
         if music_ids:
-            return music_ids[0]
+            mid = music_ids[0]
+            return mid
         return ""
