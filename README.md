@@ -1,5 +1,7 @@
 # MusicAPI
 ![GitHub](https://img.shields.io/github/license/kushao1267/MusicAPI.svg)
+![Build](https://travis-ci.org/kushao1267/MusicAPI.svg?branch=master)
+
 
 ## About
 提供了国内许多音乐的API，支持通过music_id和分享链接两种方式来获取歌曲信息及下载链接（版权、会员的除外）。
