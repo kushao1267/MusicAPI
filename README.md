@@ -1,6 +1,7 @@
 # MusicAPI
 ![GitHub](https://img.shields.io/github/license/kushao1267/MusicAPI.svg)
 ![Build](https://travis-ci.org/kushao1267/MusicAPI.svg?branch=master)
+[![codecov](https://codecov.io/gh/kushao1267/MusicAPI/branch/master/graph/badge.svg)](https://codecov.io/gh/kushao1267/MusicAPI)
 
 
 ## About
@@ -14,9 +15,16 @@
 
 注: 该仓库仅可用于学习和交流实验用途，若用于商业用途，与本人无关。
 
+
 ## Install
+```
+git clone git@github.com:kushao1267/MusicAPI.git
+python setup.py install
+```
+
 
 ## Usage
+在MusicAPI目录下:
 
 1.使用music_id访问
 
@@ -39,5 +47,6 @@ song:豆你玩
 cover:http://p2.music.126.net/326BBneDl4izrTBF8vJJxA==/109951163993105848.jpg
 download_url:http://m10.music.126.net/20190419145641/41f171066b22d8e496b63ff67c6ca429/ymusic/045d/0e5d/0553/37a1dc7beb972befb40629f085a5eb39.mp3
 ```
+
 ## License
 [MIT License](https://github.com/kushao1267/facade/blob/master/LICENSE)
