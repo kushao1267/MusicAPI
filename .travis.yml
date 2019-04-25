@@ -5,10 +5,11 @@ python:
 
 install:
   - pip install -r requirements.txt
+  - pip install codecov
 
 script:
   - python setup.py install
   - pytest --cov=./mozart tests
 
 after_success:
-  - codecov
+  - codecov -t 88f47fbb-b056-4aa0-a5af-a68dbea071e8
