@@ -3,7 +3,7 @@ import random
 import re
 import requests
 from .base import Music
-
+from .exception import MusicDoesnotExists
 from mozart import config
 
 __all__ = ["QQ"]
@@ -94,9 +94,12 @@ class QQ(Music):
                     'module%22%3a%22music.pf_song_detail_svr%22%7d%7d'.format(self.music_id),
         }
         resp = requests.get(url, params=params)
-        data = resp.json()["songinfo"]["data"]["track_info"]
-        self._song = data["name"]
-        self._singer = data["singer"][0]["name"]
+        try:
+            data = resp.json()["songinfo"]["data"]["track_info"]
+            self._song = data["name"]
+            self._singer = data["singer"][0]["name"]
+        except Exception:
+            raise MusicDoesnotExists("音乐不存在，请检查")
 
     @classmethod
     def get_music_id_from_url(cls, url):

@@ -5,7 +5,7 @@ import binascii
 from Crypto.Cipher import AES
 from .base import Music
 from mozart import config
-from .exception import MusicIDInvalid
+from .exception import MusicDoesnotExists
 
 __all__ = ["Netease"]
 
@@ -51,9 +51,13 @@ class Netease(Music):
         if r.status_code != requests.codes.ok:
             raise Exception(r.text)
         j = r.json()
-        self._cover = j["songs"][0]["al"]["picUrl"]
-        self._song = j["songs"][0]["al"]["name"]
-        self._singer = j["songs"][0]["ar"][0]["name"]
+
+        if len(j["songs"]) > 0:
+            self._cover = j["songs"][0]["al"]["picUrl"]
+            self._song = j["songs"][0]["al"]["name"]
+            self._singer = j["songs"][0]["ar"][0]["name"]
+        else:
+            raise MusicDoesnotExists("音乐不存在，请检查")
 
     def _get_download_url(self):
         """ 从网易云音乐下载 """

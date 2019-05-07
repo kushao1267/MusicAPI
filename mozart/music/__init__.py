@@ -21,4 +21,5 @@ def get_music_handler(origin):
         return False, None
 
 
-__all__ = ["get_music_handler", "music_map"]
+__all__ = ["get_music_handler", "music_map",
+           "QQ", "XiaMi", "Netease"]

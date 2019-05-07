@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 from .base import Music
+from .exception import MusicDoesnotExists
 from mozart import config
 import requests
 
@@ -34,12 +35,14 @@ class XiaMi(Music):
             r = s.get("http://api.xiami.com/web", params=params)
             if r.status_code != requests.codes.ok:
                 raise Exception("获取音乐失败")
-            j = r.json()
-            self._song = j["data"]["song"]["song_name"]
-            self._singer = j["data"]["song"]["singers"]
-            self._cover = j["data"]["song"]["logo"]
-            self._download_url = j["data"]["song"]["listen_file"]
-            # j["data"]["song"]["lyric"]  # 歌词
+            try:
+                j = r.json()
+                self._song = j["data"]["song"]["song_name"]
+                self._singer = j["data"]["song"]["singers"]
+                self._cover = j["data"]["song"]["logo"]
+                self._download_url = j["data"]["song"]["listen_file"]
+            except Exception:
+                raise MusicDoesnotExists("音乐不存在，请检查")
 
     def _get_music_info(self):
         pass

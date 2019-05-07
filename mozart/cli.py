@@ -1,45 +1,38 @@
+import sys
 from .__version__ import __version__
+import argparse
 import logging
 from mozart.music import get_music_handler, music_map
-# http://url.cn/5B0gwrl
-# https://www.xiami.com/song/1459299
-# http://music.163.com/song/1358275974/?userid=1769873017
 
 
-def cli():
+def main(origin_args):
     """
     command line program
     """
-    import argparse
 
-    def get_args():
-        """
-        Parse programs arguments
-        """
-        parser = argparse.ArgumentParser(
-            description="mozart - ♪ Nice API for developers who like musics",
-            usage="python -m mozart [-h] [-v] [-l LINK] [-n NAME] [-m MUSIC_ID]"
-        )
+    parser = argparse.ArgumentParser(
+        description="mozart - ♪ Nice API for developers who like musics",
+        usage="python -m mozart [-h] [-v] [-l LINK] [-n NAME] [-m MUSIC_ID]"
+    )
 
-        parser.add_argument(
-            "-v", "--version", action="version",
-            version='%(prog)s - version {}'.format(__version__))
-        parser.add_argument(
-            "-l", "--link", dest='link', type=str, default="",
-            help='print out all info about this music from link.')
-        parser.add_argument(
-            "-n", "--name", dest='name', type=str, default="",
-            help='name of music site. avaliable are: {}'.format(', '.join(music_map.keys())))
-        parser.add_argument(
-            "-m", "--music", dest='music_id', type=str, default="",
-            help='print out all info about this music from music id.')
-        args = parser.parse_args()
-        if not args.name or args.name in ["qq", "xiami", "netease"] or (not args.link and not args.music_id):
-            parser.print_help()
-            exit(0)
-        return args
+    parser.add_argument(
+        "-v", "--version", action="version",
+        version='%(prog)s - version {}'.format(__version__))
+    parser.add_argument(
+        "-l", "--link", dest='link', type=str, default="",
+        help='print out all info about this music from link.')
+    parser.add_argument(
+        "-n", "--name", dest='name', type=str, default="",
+        help='name of music site. avaliable are: {}'.format(', '.join(music_map.keys())))
+    parser.add_argument(
+        "-m", "--music", dest='music_id', type=str, default="",
+        help='print out all info about this music from music id.')
+    args = parser.parse_args(origin_args)
 
-    args = get_args()
+    if args.name not in ["qq", "xiami", "netease"] or (not args.link and not args.music_id):
+        parser.print_help()
+        exit(0)
+
     # init logger
     logging.basicConfig(
         level=logging.INFO,
@@ -54,10 +47,13 @@ def cli():
         logger.debug("use music id to request")
         if got:
             handler(music_id=args.music_id, use_id=True)
-
     elif args.link:
         logger.debug("use link to request")
         if got:
             handler(url=args.link, use_id=False)
     else:
         exit(-1)
+
+
+def app_main():
+    sys.exit(main(sys.argv[1:]))
