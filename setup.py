@@ -19,7 +19,7 @@ setup(
     # If your package is a single module, use this instead of 'packages':
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     entry_points={
-        'console_scripts': ['mozart = mozart.__main__:cli']
+        'console_scripts': ['mozart = mozart.__main__:app_main']
     },
     version=mozart.__version__,
     description='Nice API for developers who like music™',
