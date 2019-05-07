@@ -1,3 +1,4 @@
+from mozart import cli
 from .__version__ import __version__
 __title__ = "MusicAPI"
 __description__ = "Nice API for developers who like music™"

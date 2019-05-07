@@ -31,7 +31,7 @@ def main(origin_args):
 
     if args.name not in ["qq", "xiami", "netease"] or (not args.link and not args.music_id):
         parser.print_help()
-        exit(0)
+        return
 
     # init logger
     logging.basicConfig(
@@ -52,7 +52,7 @@ def main(origin_args):
         if got:
             handler(url=args.link, use_id=False)
     else:
-        exit(-1)
+        return
 
 
 def app_main():

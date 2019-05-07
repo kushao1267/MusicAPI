@@ -1,3 +1,3 @@
-from .cli import app_main
+from mozart.cli import app_main
 
 app_main()
