@@ -1,6 +1,6 @@
+import argparse
 import sys
 from .__version__ import __version__
-import argparse
 import logging
 from mozart.music import get_music_handler, music_map
 
@@ -41,18 +41,22 @@ def main(origin_args):
     )
     logger = logging.getLogger("mozart")
 
-    got, handler = get_music_handler(args.name)
-    # main proccess
-    if args.music_id:
-        logger.debug("use music id to request")
-        if got:
-            handler(music_id=args.music_id, use_id=True)
-    elif args.link:
-        logger.debug("use link to request")
-        if got:
-            handler(url=args.link, use_id=False)
-    else:
-        return
+    try:
+        got, handler = get_music_handler(args.name)
+        # main proccess
+        if args.music_id:
+            logger.debug("use music id to request")
+            if got:
+                handler(music_id=args.music_id, use_id=True)
+        elif args.link:
+            logger.debug("use link to request")
+            if got:
+                handler(url=args.link, use_id=False)
+    except SystemExit:
+        logger.info('exiting...')
+        sys.exit(0)
+
+    return 0
 
 
 def app_main():
