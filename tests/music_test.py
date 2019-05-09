@@ -1,5 +1,3 @@
-import pytest
-import re
 from mozart.music import music_map, Netease, QQ, XiaMi
 
 
@@ -28,8 +26,7 @@ def test_xiami_music_id():
     result = XiaMi(music_id="1459299", use_id=True).__repr__()
     assert "Jo Dee Messina" in result
     assert "I Know a Heartache When I See One" in result
-    music_dl = re.findall(r'(http://m\d+.xiami.net)', result)
-    assert len(music_dl) > 0  # domain
+    assert 'http://m128.xiami.net' in result  # domain
 
 
 def test_qq_music_link():
@@ -50,5 +47,4 @@ def test_xiami_music_link():
     result = XiaMi(url="https://www.xiami.com/song/1459299", use_id=False).__repr__()
     assert "Jo Dee Messina" in result
     assert "I Know a Heartache When I See One" in result
-    music_dl = re.findall(r'(http://m\d+.xiami.net)', result)
-    assert len(music_dl) > 0  # domain
+    assert 'http://m128.xiami.net' in result  # domain

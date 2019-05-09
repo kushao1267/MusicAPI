@@ -2,4 +2,5 @@ from mozart.cli import main
 
 
 def test_cli_main():
-    assert 0 == 0
+    ret = main(['-n', 'qq', '-l', 'http://url.cn/5B0gwrl'])
+    assert ret == 0
